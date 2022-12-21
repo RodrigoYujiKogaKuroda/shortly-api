@@ -4,7 +4,7 @@ export const signUpModel = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
-    confirmPassword: joi.string().valid(joi.ref('password'))
+    confirmPassword: Joi.string().valid(Joi.ref('password'))
 });
 
 export const signInModel = Joi.object({

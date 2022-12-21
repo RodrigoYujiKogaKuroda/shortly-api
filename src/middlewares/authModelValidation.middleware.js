@@ -41,24 +41,20 @@ export async function signUpModelValidation(req, res, next) {
 
 export async function signInModelValidation(req, res, next) {
 
-    try {
-        const {
-            email,
-            password
-        } = req.body;
-    
-        const user = {
-            email,
-            password
-        };
-    
-        const { error } = signInModel.validate(user, { abortEarly: false });
-        if (error) {
-            const errors = error.details.map((detail) => detail.message);
-            return res.status(422).send(errors);
-        }
-    } catch (err) {
-        res.status(500).send(err.message);
+    const {
+        email,
+        password
+    } = req.body;
+
+    const user = {
+        email,
+        password
+    };
+
+    const { error } = signInModel.validate(user, { abortEarly: false });
+    if (error) {
+        const errors = error.details.map((detail) => detail.message);
+        return res.status(422).send(errors);
     }
 
     next();

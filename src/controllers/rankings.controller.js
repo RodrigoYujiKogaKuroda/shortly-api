@@ -1,4 +1,4 @@
-import { connection } from "../database/database.js";
+import { rankingsRepository } from "../repositories/rankings.repository.js";
 
 export async function getRanking (req, res) {
 

@@ -1,4 +1,4 @@
-import { connection } from "../database/database.js";
+import { authRepository } from "../repositories/auth.repository.js";
 
 export async function signUp (req, res) {
 

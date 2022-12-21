@@ -1,4 +1,4 @@
-import { connection } from "../database/database.js";
+import { usersRepository } from "../repositories/users.repository.js";
 
 export async function getUser (req, res) {
 

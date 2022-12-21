@@ -1,4 +1,4 @@
-import { connection } from "../database/database.js";
+import { urlRepository } from "../repositories/url.repository.js";
 
 export async function shortUrl (req, res) {
 

@@ -17,7 +17,6 @@ export async function signUpModelValidation(req, res, next) {
         password,
         confirmPassword
     };
-
     const { error } = signUpModel.validate(user, { abortEarly: false });
     if (error) {
         const errors = error.details.map((detail) => detail.message);
@@ -58,6 +57,7 @@ export async function signInModelValidation(req, res, next) {
     try {
         const userExists = authRepository.findUser(email);
         if(userExists && bcrypt.compareSync(user.password, userExists.rows[0].password)){
+            delete userExists.password;
             res.locals.userId = userExists.rows[0].id;
         } else {
             return res.sendStatus(401);

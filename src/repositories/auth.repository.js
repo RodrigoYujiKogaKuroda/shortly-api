@@ -22,7 +22,7 @@ async function signIn(
     token,
     id
 ) {
-	return connectionquery(
+	return connection.query(
         "INSERT INTO sessions (token, user_id) VALUES ($1, $2);",
         [token, id]
     );

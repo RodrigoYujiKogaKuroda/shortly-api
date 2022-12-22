@@ -18,8 +18,19 @@ export async function shortUrl (req, res) {
 
 export async function getUrl (req, res) {
 
+    const { id } = req.params;
+
     try {
-        
+        const url = await urlRepository.getUrl(id);
+        if (url.rows.length === 0) {
+            res.sendStatus(404);
+        }
+        const urlToSend = {
+            id: url.rows[0].id,
+            shortUrl: url.rows[0].short_url,
+            url: url.rows[0].url,
+        }
+        res.status(200).send(urlToSend);
     } catch (err) {
         res.status(500).send(err.message);
     }

@@ -1,5 +1,6 @@
-import { connection } from "../database/database.js";
+import bcrypt from "bcrypt";
 import { signUpModel, signInModel } from "../models/auth.model.js";
+import { authRepository } from "../repositories/auth.repository.js";
 
 export async function signUpModelValidation(req, res, next) {
 
@@ -24,10 +25,7 @@ export async function signUpModelValidation(req, res, next) {
     }
 
     try {
-        const users = await connection.query(
-            "SELECT email FROM users WHERE email=$1;",
-            [email]
-        );
+        const users = await authRepository.findUser(email);
         if (users.rows[0]) {
             return res.sendStatus(409);
         }
@@ -55,6 +53,17 @@ export async function signInModelValidation(req, res, next) {
     if (error) {
         const errors = error.details.map((detail) => detail.message);
         return res.status(422).send(errors);
+    }
+
+    try {
+        const userExists = authRepository.findUser(email);
+        if(userExists && bcrypt.compareSync(user.password, userExists.rows[0].password)){
+            res.locals.userId = userExists.rows[0].id;
+        } else {
+            return res.sendStatus(401);
+        }
+    } catch (err) {
+        res.status(500).send(err.message);
     }
 
     next();

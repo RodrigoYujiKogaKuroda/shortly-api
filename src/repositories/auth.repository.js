@@ -11,18 +11,21 @@ async function signUp(
     );
 }
 
-async function findUser(
-    email,
-    password
-) {
-	return connection.query("");
+async function findUser(email) {
+	return connection.query(
+        "SELECT * FROM users WHERE email=$1",
+        [email]
+    );
 }
 
 async function signIn(
-    email,
-    password
+    token,
+    id
 ) {
-	return connection.query("");
+	return connectionquery(
+        "INSERT INTO sessions (token, user_id) VALUES ($1, $2);",
+        [token, id]
+    );
 }
 
 export const authRepository = {

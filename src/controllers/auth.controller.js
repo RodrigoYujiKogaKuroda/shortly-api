@@ -17,7 +17,7 @@ export async function signUp (req, res) {
                 email: email,
                 password: passwordHash
             }
-        await authRepository.signUp(name, email, password,);
+        await authRepository.signUp(name, email, password);
         res.sendStatus(201);
     } catch (err) {
         res.status(500).send(err.message);
@@ -27,8 +27,12 @@ export async function signUp (req, res) {
 
 export async function signIn (req, res) {
 
+    const id = res.locals.userId;
+    const token = uuid();
+
     try {
-        res.sendStatus(200);
+        await authRepository.signIn(token, id);
+        res.status(200).send(token);
     } catch (err) {
         res.status(500).send(err.message);
     }

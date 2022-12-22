@@ -1,10 +1,15 @@
-import nanoid from nanoid;
+import { nanoid } from nanoid;
 import { urlRepository } from "../repositories/url.repository.js";
 
 export async function shortUrl (req, res) {
 
+    const { url } = req.body;
+    const user = res.locals.user;
+    const shortUrl = nanoid(8);
+    
     try {
-        
+        await urlRepository.shortUrl(shortUrl, url, user.id);
+        res.status(201).send({"shortUrl": shortUrl});
     } catch (err) {
         res.status(500).send(err.message);
     }

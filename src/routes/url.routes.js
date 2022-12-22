@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { shortUrl, getUrl, redirectToUrl, deleteUrl } from '../controllers/url.controller.js'
+import { shortUrl, getUrl, redirectToUrl, deleteUrl } from "../controllers/url.controller.js"
 import { urlModelValidation } from "../middlewares/urlModelValidation.middleware.js";
 
 const router = Router();

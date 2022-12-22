@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import { authRepository } from "../repositories/auth.repository.js";
 
 export async function signUp (req, res) {

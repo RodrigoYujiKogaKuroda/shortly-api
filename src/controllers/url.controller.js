@@ -6,8 +6,7 @@ export async function shortUrl (req, res) {
 
     const { url } = req.body;
     const user = res.locals.user;
-    const short = nanoid(8);
-    console.log(short);
+    const short = nanoid();
     
     try {
         await urlRepository.shortUrl(short, url, user.id);
@@ -25,7 +24,7 @@ export async function getUrl (req, res) {
     try {
         const url = await urlRepository.getUrl(id);
         if (url.rows.length === 0) {
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
         const urlToSend = {
             id: url.rows[0].id,
@@ -41,12 +40,13 @@ export async function getUrl (req, res) {
 
 export async function redirectToUrl (req, res) {
 
-    const { shortUrl } = req.params
+    const { shortUrl } = req.params;
 
     try {
-        const url = await urlRepository.redirectToUrl(id);
+        const url = await urlRepository.redirectToUrl(`'${shortUrl}'`);
+        console.log(url.rows);
         if (url.rows.length === 0) {
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
         url.rows[0].visit_count++;
         res.redirect('/?valid=' + url.rows[0].url);

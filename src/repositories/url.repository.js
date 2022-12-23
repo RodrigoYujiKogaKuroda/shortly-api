@@ -13,20 +13,23 @@ async function shortUrl(
 
 async function getUrl(id) {
 	return connection.query(
-        "SELECT * FROM links WHERE id=$1;",
+        "SELECT * FROM links WHERE id = $1;",
         [id]
     );
 }
 
 async function redirectToUrl(shortUrl) {
-	return connection.query(        
-        "SELECT * FROM links WHERE shortUrl=$1;",
+	return connection.query(
+        "SELECT * FROM links WHERE short_url = $1;",
         [shortUrl]
     );
 }
 
-async function deleteUrl() {
-	return connection.query();
+async function deleteUrl(id) {
+	return connection.query(
+        "DELETE FROM links WHERE id = $1;",
+        [id]
+    );
 }
 
 export const urlRepository = {

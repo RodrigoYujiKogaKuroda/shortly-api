@@ -12,12 +12,7 @@ export async function signUp (req, res) {
 
     try {
         const passwordHash = bcrypt.hashSync(password, 10);
-            user = {
-                name: name,
-                email: email,
-                password: passwordHash
-            }
-        await authRepository.signUp(name, email, password);
+        await authRepository.signUp(name, email, passwordHash);
         res.sendStatus(201);
     } catch (err) {
         res.status(500).send(err.message);

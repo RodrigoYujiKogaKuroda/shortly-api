@@ -7,6 +7,7 @@ export async function shortUrl (req, res) {
     const { url } = req.body;
     const user = res.locals.user;
     const short = nanoid(8);
+    console.log(short);
     
     try {
         await urlRepository.shortUrl(short, url, user.id);

@@ -18,8 +18,11 @@ async function getUrl(id) {
     );
 }
 
-async function redirectToUrl() {
-	return connection.query();
+async function redirectToUrl(shortUrl) {
+	return connection.query(        
+        "SELECT * FROM links WHERE shortUrl=$1;",
+        [shortUrl]
+    );
 }
 
 async function deleteUrl() {

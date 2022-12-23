@@ -39,8 +39,15 @@ export async function getUrl (req, res) {
 
 export async function redirectToUrl (req, res) {
 
+    const { shortUrl } = req.params
+
     try {
-        
+        const url = await urlRepository.redirectToUrl(id);
+        if (url.rows.length === 0) {
+            res.sendStatus(404);
+        }
+        url.rows[0].visit_count++;
+        res.redirect('/?valid=' + url.rows[0].url);
     } catch (err) {
         res.status(500).send(err.message);
     }

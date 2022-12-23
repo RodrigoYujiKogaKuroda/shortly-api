@@ -9,7 +9,10 @@ export async function urlModelValidation(req, res, next) {
         return res.sendStatus(401);
     }
 
-    const { error } = urlModel.validate(req.body, { abortEarly: false });
+    const urlObject = {
+        url: req.body.url
+    }
+    const { error } = urlModel.validate(urlObject, { abortEarly: false });
     if (error) {
         const errors = error.details.map((detail) => detail.message);
         return res.status(422).send(errors);

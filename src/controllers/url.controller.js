@@ -6,11 +6,11 @@ export async function shortUrl (req, res) {
 
     const { url } = req.body;
     const user = res.locals.user;
-    const shortUrl = nanoid(8);
+    const short = nanoid(8);
     
     try {
-        await urlRepository.shortUrl(shortUrl, url, user.id);
-        res.status(201).send({"shortUrl": shortUrl});
+        await urlRepository.shortUrl(short, url, user.id);
+        res.status(201).send({"shortUrl": short});
     } catch (err) {
         res.status(500).send(err.message);
     }

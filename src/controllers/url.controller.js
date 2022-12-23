@@ -48,6 +48,7 @@ export async function redirectToUrl (req, res) {
             return res.sendStatus(404);
         }
         url.rows[0].visit_count++;
+        await urlRepository.updateUrl(url.rows[0].visit_count, url.rows[0].id);
         res.redirect(url.rows[0].url);
     } catch (err) {
         res.status(500).send(err.message);

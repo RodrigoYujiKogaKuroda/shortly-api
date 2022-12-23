@@ -25,6 +25,16 @@ async function redirectToUrl(shortUrl) {
     );
 }
 
+async function updateUrl(
+    count,
+    id
+) {
+	return connection.query(
+        "UPDATE links SET visit_count = $1 WHERE id = $2;",
+        [count, id]
+    );
+}
+
 async function deleteUrl(id) {
 	return connection.query(
         "DELETE FROM links WHERE id = $1;",
@@ -36,5 +46,6 @@ export const urlRepository = {
     shortUrl,
     getUrl,
     redirectToUrl,
+    updateUrl,
     deleteUrl
 }

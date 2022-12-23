@@ -5,10 +5,11 @@ export async function urlModelValidation(req, res, next) {
 
     const { authorization } = req.headers;
     const token = authorization?.replace('Bearer ', '');
-    if(!token) return res.sendStatus(401);
+    if(!token){
+        return res.sendStatus(401);
+    }
 
-    const { url } = req.body;
-    const { error } = urlModel.validate({url}, { abortEarly: false });
+    const { error } = urlModel.validate(req.body, { abortEarly: false });
     if (error) {
         const errors = error.details.map((detail) => detail.message);
         return res.status(422).send(errors);

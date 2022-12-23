@@ -3,11 +3,11 @@ import { connection } from "../database/database.js";
 async function shortUrl({
     shortUrl,
     url,
-    user_id
+    userId
 }) {
 	return connection.query(
-        "INSERT INTO links (shortUrl, url, visit_count, user_id) VALUES ($1, $2, $3, $4);",
-        [shortUrl, url, 0, user_id]
+        "INSERT INTO links (short_url, url, visit_count, user_id) VALUES ($1, $2, $3, $4);",
+        [shortUrl, url, 0, userId]
     );
 }
 

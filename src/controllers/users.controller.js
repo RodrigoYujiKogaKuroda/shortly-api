@@ -22,7 +22,14 @@ export async function getUser (req, res) {
 
         delete user.rows[0].password;
         const list = await usersRepository.getUser(user.rows[0].id);
-        res.status(200).send(list);
+        const shortenedUrls = await usersRepository.getUserLinks(user.rows[0].id);
+        const objToSend = {
+            "id": list.rows[0].row_to_json.id,
+            "name": list.rows[0].row_to_json.name,
+            "visitCount": list.rows[0].row_to_json.visitCount,
+            "shortenedUrls": [...shortenedUrls.rows[0].json_agg]
+        }
+        res.status(200).send(objToSend);
     } catch (err) {
         res.status(500).send(err.message);
     }

@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { urlRepository } from "../repositories/url.repository.js";
+import { sessionRepository } from "../repositories/sessions.repository.js";
 
 export async function shortUrl (req, res) {
 
@@ -56,8 +57,26 @@ export async function redirectToUrl (req, res) {
 
 export async function deleteUrl (req, res) {
 
+    const { authorization } = req.headers;
+    const token = authorization?.replace('Bearer ', '');
+    if(!token){
+        return res.sendStatus(401);
+    }
+
+    const { id } = req.params;
+
     try {
-        
+        const url = await urlRepository.getUrl(id);
+        if (!url.rows[0]) {
+            return res.sendStatus(404);
+        }
+
+        const sessions = await sessionRepository.connectSession(token);
+        if (url.rows[0].user_id !== sessions.rows[0].user_id) {
+            return res.sendStatus(401);
+        }
+        await urlRepository.deleteUrl(id);
+        return res.sendStatus(204);
     } catch (err) {
         res.status(500).send(err.message);
     }

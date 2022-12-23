@@ -55,7 +55,7 @@ export async function signInModelValidation(req, res, next) {
     }
 
     try {
-        const userExists = authRepository.findUser(email);
+        const userExists = await authRepository.findUser(email);
         if(userExists && bcrypt.compareSync(user.password, userExists.rows[0].password)){
             delete userExists.password;
             res.locals.userId = userExists.rows[0].id;
